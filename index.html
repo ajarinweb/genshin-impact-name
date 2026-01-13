@@ -152,11 +152,13 @@ select, input {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyrJOimFNuaAwEXJdfLcfaUpXQb5oHdgk-Ii--luuhsv3oEChvipm3OIc6mDitZ1XTCSg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxLKv8PnZw1G3u-iO8klQ-948TNuq-E1PMZwTbAhxqQbkntjwbDzifOP1q2grjTfsZv0Q/exec";
 const daerahEl = document.getElementById("daerah");
 const jenisEl = document.getElementById("jenis");
 const namaEl = document.getElementById("nama");
 let indexEdit = null;
+let editMode = false;
+let oldNama = "";
 
 const jenisPerDaerah = {
     "Mondstad": ["Laki-laki","Perempuan","Organisasi"],
@@ -193,6 +195,19 @@ function hideAll() {
     });
 }
 
+function editData() {
+    editMode = true;
+    hideAll();
+    document.getElementById("inputBox").classList.remove("hidden");
+}
+
+function buangData() {
+    editMode = false;
+    oldNama = "";
+    resetForm();
+    backToHome();
+}
+
 /* FORM */
 function enableJenis() { jenisEl.disabled = false; }
 function enableInput() { namaEl.disabled = false; }
@@ -216,19 +231,44 @@ async function simpanData() {
         return;
     }
 
-    const response = await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({ daerah, jenis, nama })
-    });
+    // ambil data dari cache / server
+    if (!cacheData) {
+        const res = await fetch(API_URL);
+        cacheData = await res.json();
+    }
 
-    const result = await response.json();
+    const found = cacheData.find(d =>
+        d.nama.toLowerCase() === nama.toLowerCase()
+    );
 
-    if (result.status === "duplicate") {
-        alert("Nama sudah ada di database!");
+    if (found && !editMode) {
+        oldNama = found.nama;
+
+        // isi form untuk edit
+        daerahEl.value = found.daerah;
+        jenisEl.disabled = false;
+        jenisEl.value = found.jenis;
+        namaEl.disabled = false;
+        namaEl.value = found.nama;
+
+        hideAll();
+        document.getElementById("confirmBox").classList.remove("hidden");
         return;
     }
 
-    alert("Data berhasil disimpan!");
+    const payload = editMode
+        ? { daerah, jenis, nama, mode: "edit", oldNama }
+        : { daerah, jenis, nama };
+
+    await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+
+    alert(editMode ? "Data diperbarui!" : "Data disimpan!");
+
+    editMode = false;
+    oldNama = "";
     resetForm();
     backToHome();
 }
@@ -284,6 +324,7 @@ async function renderCari() {
 
 </body>
 </html>
+
 
 
 
