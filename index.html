@@ -232,23 +232,6 @@ async function simpanData() {
     backToHome();
 }
 
-function editData() {
-    const data = JSON.parse(localStorage.getItem("genshinNames"));
-    const d = data[indexEdit];
-    daerahEl.value=d.daerah;
-    jenisEl.disabled=false;
-    jenisEl.value=d.jenis;
-    namaEl.disabled=false;
-    namaEl.value=d.nama;
-    showInput();
-}
-
-function buangData() {
-    indexEdit=null;
-    resetForm();
-    backToHome();
-}
-
 /* CARI */
 async function renderCari() {
     const q = document.getElementById("searchInput").value.toLowerCase();
@@ -288,4 +271,5 @@ async function renderCari() {
 
 </body>
 </html>
+
 
