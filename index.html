@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Genshin Impact Names</title>
+
+<style>
+body {
+    background: linear-gradient(135deg, #1e2a4a, #3a4f7a);
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.box {
+    background: rgba(0,0,0,0.5);
+    padding: 30px;
+    border-radius: 15px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+button {
+    margin: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #4da3ff;
+    color: white;
+}
+
+.btn-secondary {
+    background: #ffd166;
+    color: black;
+}
+
+select, input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- KOTAK AWAL -->
+<div class="box" id="homeBox">
+    <h2>Nama-nama di Genshin Impact</h2>
+    <button class="btn-primary" onclick="showInput()">Masukan</button>
+    <button class="btn-secondary">Cari</button>
+</div>
+
+<!-- KOTAK INPUT -->
+<div class="box hidden" id="inputBox">
+    <h2>Masukan Nama</h2>
+
+    <select id="daerah" onchange="enableJenis()">
+        <option value="">-- Pilih Daerah --</option>
+        <option>Mondstad</option>
+        <option>Liyue</option>
+        <option>Inazuma</option>
+        <option>Sumeru</option>
+        <option>Fontain</option>
+        <option>Natlan</option>
+        <option>Nord-Krai</option>
+        <option>Sneznaya</option>
+    </select>
+
+    <select id="jenis" disabled onchange="enableInput()">
+        <option value="">-- Pilih Jenis --</option>
+        <option>Laki-laki</option>
+        <option>Perempuan</option>
+        <option>Vanarana</option>
+        <option>Oceanid</option>
+        <option>Segwine</option>
+        <option>Saurian</option>
+        <option>Organisasi</option>
+    </select>
+
+    <input type="text" id="nama" placeholder="Masukan nama..." disabled>
+
+    <button class="btn-primary" onclick="simpanData()">Simpan</button>
+</div>
+
+<script>
+function showInput() {
+    document.getElementById("homeBox").classList.add("hidden");
+    document.getElementById("inputBox").classList.remove("hidden");
+}
+
+function enableJenis() {
+    document.getElementById("jenis").disabled = false;
+}
+
+function enableInput() {
+    document.getElementById("nama").disabled = false;
+}
+
+function simpanData() {
+    const daerah = document.getElementById("daerah").value;
+    const jenis = document.getElementById("jenis").value;
+    const nama = document.getElementById("nama").value;
+
+    if (!daerah || !jenis || !nama) {
+        alert("Semua data harus diisi!");
+        return;
+    }
+
+    let data = JSON.parse(localStorage.getItem("genshinNames")) || [];
+    data.push({ daerah, jenis, nama });
+
+    localStorage.setItem("genshinNames", JSON.stringify(data));
+
+    alert("Data berhasil disimpan!");
+
+    // Reset
+    document.getElementById("daerah").value = "";
+    document.getElementById("jenis").value = "";
+    document.getElementById("nama").value = "";
+    document.getElementById("jenis").disabled = true;
+    document.getElementById("nama").disabled = true;
+
+    // Kembali ke awal
+    document.getElementById("inputBox").classList.add("hidden");
+    document.getElementById("homeBox").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
