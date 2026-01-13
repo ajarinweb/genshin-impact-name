@@ -177,6 +177,7 @@ function showInput() {
 
 function showCari() {
     hideAll();
+    cacheData = null; // reset cache
     document.getElementById("cariBox").classList.remove("hidden");
     renderCari();
 }
@@ -233,43 +234,56 @@ async function simpanData() {
 }
 
 /* CARI */
+let cariTimeout = null;
+let cacheData = null;
+
 async function renderCari() {
     const q = document.getElementById("searchInput").value.toLowerCase();
     const hasil = document.getElementById("hasilCari");
-    hasil.innerHTML = "";
 
-    const res = await fetch(API_URL);
-    const data = await res.json();
+    // debounce (hentikan render sebelumnya)
+    clearTimeout(cariTimeout);
 
-    Object.keys(jenisPerDaerah).forEach(daerah => {
-        const dataDaerah = data.filter(d =>
-            d.daerah === daerah &&
-            d.nama.toLowerCase().includes(q)
-        );
+    cariTimeout = setTimeout(async () => {
+        hasil.innerHTML = "";
 
-        if (dataDaerah.length === 0) return;
+        // ambil data sekali saja (cache)
+        if (!cacheData) {
+            const res = await fetch(API_URL);
+            cacheData = await res.json();
+        }
 
-        hasil.innerHTML += `<div class="daerah">| ${daerah} |</div>`;
+        Object.keys(jenisPerDaerah).forEach(daerah => {
+            const dataDaerah = cacheData.filter(d =>
+                d.daerah === daerah &&
+                d.nama.toLowerCase().includes(q)
+            );
 
-        jenisPerDaerah[daerah].forEach(jenis => {
-            const namaList = dataDaerah
-                .filter(d => d.jenis === jenis)
-                .map(d => d.nama)
-                .sort();
+            if (dataDaerah.length === 0) return;
 
-            if (namaList.length > 0) {
-                hasil.innerHTML += `<div class="jenis">${jenis}</div>`;
-                namaList.forEach(n => {
-                    hasil.innerHTML += `<div class="nama">- ${n}</div>`;
-                });
-            }
+            hasil.innerHTML += `<div class="daerah">| ${daerah} |</div>`;
+
+            jenisPerDaerah[daerah].forEach(jenis => {
+                const namaList = dataDaerah
+                    .filter(d => d.jenis === jenis)
+                    .map(d => d.nama)
+                    .sort();
+
+                if (namaList.length > 0) {
+                    hasil.innerHTML += `<div class="jenis">${jenis}</div>`;
+                    namaList.forEach(n => {
+                        hasil.innerHTML += `<div class="nama">- ${n}</div>`;
+                    });
+                }
+            });
         });
-    });
-}
 
+    }, 300); // render setelah user berhenti ngetik 300ms
+}
 </script>
 
 </body>
 </html>
+
 
 
