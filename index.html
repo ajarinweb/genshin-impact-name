@@ -2,13 +2,14 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Genshin Impact Names</title>
+<title>Nama Genshin Impact</title>
 
 <style>
 body {
     background: linear-gradient(135deg, #1e2a4a, #3a4f7a);
     font-family: Arial, sans-serif;
     height: 100vh;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,10 +17,10 @@ body {
 }
 
 .box {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.55);
     padding: 30px;
     border-radius: 15px;
-    width: 320px;
+    width: 340px;
     text-align: center;
     box-shadow: 0 0 15px rgba(255,255,255,0.2);
 }
@@ -46,7 +47,7 @@ button {
 select, input {
     width: 100%;
     padding: 8px;
-    margin-top: 8px;
+    margin-top: 10px;
     border-radius: 8px;
     border: none;
 }
@@ -98,24 +99,55 @@ select, input {
     <button class="btn-primary" onclick="simpanData()">Simpan</button>
 </div>
 
+<!-- KOTAK KONFIRMASI DUPLIKAT -->
+<div class="box hidden" id="confirmBox">
+    <h3>Nama sudah ada!</h3>
+    <p>Perlu edit?</p>
+    <button class="btn-primary" onclick="editData()">Edit</button>
+    <button class="btn-secondary" onclick="buangData()">Buang</button>
+</div>
+
 <script>
+const daerahEl = document.getElementById("daerah");
+const jenisEl = document.getElementById("jenis");
+const namaEl = document.getElementById("nama");
+
+let indexEdit = null;
+
+/* NAVIGASI */
 function showInput() {
     document.getElementById("homeBox").classList.add("hidden");
     document.getElementById("inputBox").classList.remove("hidden");
 }
 
+function backToHome() {
+    document.getElementById("inputBox").classList.add("hidden");
+    document.getElementById("confirmBox").classList.add("hidden");
+    document.getElementById("homeBox").classList.remove("hidden");
+}
+
+/* FORM CONTROL */
 function enableJenis() {
-    document.getElementById("jenis").disabled = false;
+    jenisEl.disabled = false;
 }
 
 function enableInput() {
-    document.getElementById("nama").disabled = false;
+    namaEl.disabled = false;
 }
 
+function resetForm() {
+    daerahEl.value = "";
+    jenisEl.value = "";
+    namaEl.value = "";
+    jenisEl.disabled = true;
+    namaEl.disabled = true;
+}
+
+/* SIMPAN DATA */
 function simpanData() {
-    const daerah = document.getElementById("daerah").value;
-    const jenis = document.getElementById("jenis").value;
-    const nama = document.getElementById("nama").value;
+    const daerah = daerahEl.value;
+    const jenis = jenisEl.value;
+    const nama = namaEl.value.trim();
 
     if (!daerah || !jenis || !nama) {
         alert("Semua data harus diisi!");
@@ -123,22 +155,52 @@ function simpanData() {
     }
 
     let data = JSON.parse(localStorage.getItem("genshinNames")) || [];
-    data.push({ daerah, jenis, nama });
+
+    const foundIndex = data.findIndex(
+        item => item.nama.toLowerCase() === nama.toLowerCase()
+    );
+
+    if (foundIndex !== -1 && indexEdit === null) {
+        indexEdit = foundIndex;
+        document.getElementById("inputBox").classList.add("hidden");
+        document.getElementById("confirmBox").classList.remove("hidden");
+        return;
+    }
+
+    if (indexEdit !== null) {
+        data[indexEdit] = { daerah, jenis, nama };
+        indexEdit = null;
+    } else {
+        data.push({ daerah, jenis, nama });
+    }
 
     localStorage.setItem("genshinNames", JSON.stringify(data));
-
     alert("Data berhasil disimpan!");
 
-    // Reset
-    document.getElementById("daerah").value = "";
-    document.getElementById("jenis").value = "";
-    document.getElementById("nama").value = "";
-    document.getElementById("jenis").disabled = true;
-    document.getElementById("nama").disabled = true;
+    resetForm();
+    backToHome();
+}
 
-    // Kembali ke awal
-    document.getElementById("inputBox").classList.add("hidden");
-    document.getElementById("homeBox").classList.remove("hidden");
+/* EDIT DATA */
+function editData() {
+    let data = JSON.parse(localStorage.getItem("genshinNames"));
+    const item = data[indexEdit];
+
+    daerahEl.value = item.daerah;
+    jenisEl.disabled = false;
+    jenisEl.value = item.jenis;
+    namaEl.disabled = false;
+    namaEl.value = item.nama;
+
+    document.getElementById("confirmBox").classList.add("hidden");
+    document.getElementById("inputBox").classList.remove("hidden");
+}
+
+/* BUANG */
+function buangData() {
+    indexEdit = null;
+    resetForm();
+    backToHome();
 }
 </script>
 
