@@ -152,6 +152,7 @@ select, input {
 </div>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyrJOimFNuaAwEXJdfLcfaUpXQb5oHdgk-Ii--luuhsv3oEChvipm3OIc6mDitZ1XTCSg/exec";
 const daerahEl = document.getElementById("daerah");
 const jenisEl = document.getElementById("jenis");
 const namaEl = document.getElementById("nama");
@@ -204,32 +205,29 @@ function resetForm() {
 }
 
 /* SIMPAN */
-function simpanData() {
+async function simpanData() {
     const daerah = daerahEl.value;
     const jenis = jenisEl.value;
     const nama = namaEl.value.trim();
 
-    if (!daerah || !jenis || !nama) return alert("Lengkapi data!");
-
-    let data = JSON.parse(localStorage.getItem("genshinNames")) || [];
-    const found = data.findIndex(d=>d.nama.toLowerCase()===nama.toLowerCase());
-
-    if (found !== -1 && indexEdit===null) {
-        indexEdit = found;
-        hideAll();
-        document.getElementById("confirmBox").classList.remove("hidden");
+    if (!daerah || !jenis || !nama) {
+        alert("Semua data harus diisi!");
         return;
     }
 
-    if (indexEdit!==null) {
-        data[indexEdit]={daerah,jenis,nama};
-        indexEdit=null;
-    } else {
-        data.push({daerah,jenis,nama});
+    const response = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ daerah, jenis, nama })
+    });
+
+    const result = await response.json();
+
+    if (result.status === "duplicate") {
+        alert("Nama sudah ada di database!");
+        return;
     }
 
-    localStorage.setItem("genshinNames",JSON.stringify(data));
-    alert("Data tersimpan!");
+    alert("Data berhasil disimpan!");
     resetForm();
     backToHome();
 }
@@ -252,34 +250,42 @@ function buangData() {
 }
 
 /* CARI */
-function renderCari() {
+async function renderCari() {
     const q = document.getElementById("searchInput").value.toLowerCase();
-    const data = JSON.parse(localStorage.getItem("genshinNames")) || [];
     const hasil = document.getElementById("hasilCari");
     hasil.innerHTML = "";
 
-    Object.keys(jenisPerDaerah).forEach(daerah=>{
-        const dataDaerah = data.filter(d=>d.daerah===daerah && d.nama.toLowerCase().includes(q));
-        if (dataDaerah.length===0) return;
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    Object.keys(jenisPerDaerah).forEach(daerah => {
+        const dataDaerah = data.filter(d =>
+            d.daerah === daerah &&
+            d.nama.toLowerCase().includes(q)
+        );
+
+        if (dataDaerah.length === 0) return;
 
         hasil.innerHTML += `<div class="daerah">| ${daerah} |</div>`;
 
-        jenisPerDaerah[daerah].forEach(jenis=>{
+        jenisPerDaerah[daerah].forEach(jenis => {
             const namaList = dataDaerah
-                .filter(d=>d.jenis===jenis)
-                .map(d=>d.nama)
+                .filter(d => d.jenis === jenis)
+                .map(d => d.nama)
                 .sort();
 
-            if (namaList.length>0) {
+            if (namaList.length > 0) {
                 hasil.innerHTML += `<div class="jenis">${jenis}</div>`;
-                namaList.forEach(n=>{
+                namaList.forEach(n => {
                     hasil.innerHTML += `<div class="nama">- ${n}</div>`;
                 });
             }
         });
     });
 }
+
 </script>
 
 </body>
 </html>
+
