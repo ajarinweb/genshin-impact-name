@@ -89,8 +89,9 @@ select, input {
 
 .preview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    align-items: start;
 }
 
 .preview-table {
@@ -98,6 +99,22 @@ select, input {
     border: 1px solid rgba(255,255,255,0.3);
     padding: 8px;
 }
+
+#cariBox {
+    width: 90%;
+    max-width: 1100px;
+}
+
+.preview-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#previewFullContent .preview-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 </style>
 </head>
 
@@ -252,9 +269,10 @@ function renderPreview() {
                 html += `<b>${jenis}</b><br>`;
                 for (let n of names) {
                     if (lineCount >= 13) break;
-                    html += `${n}<br>`;
+                    html += `<div class="preview-name">${n}</div>`;
                     lineCount++;
                 }
+
             }
         });
 
@@ -405,6 +423,7 @@ let cacheData = null;
 
 async function renderCari() {
     const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    const btnMore = document.querySelector("#cariBox .btn-primary");
 
     if (!cacheData) {
         const res = await fetch(API_URL);
@@ -413,14 +432,17 @@ async function renderCari() {
 
     if (q === "") {
         renderPreview();
+        btnMore.style.display = "inline-block"; // tampilkan
     } else {
         renderSearch(q);
+        btnMore.style.display = "none"; // sembunyikan
     }
 }
 </script>
 
 </body>
 </html>
+
 
 
 
