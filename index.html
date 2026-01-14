@@ -86,10 +86,28 @@ select, input {
 .nama {
     margin-left: 10px;
 }
+
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.preview-table {
+    font-size: 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px;
+}
 </style>
 </head>
 
 <body>
+
+<div class="box hidden" id="previewFullBox" style="width:90%; max-height:90vh; overflow:auto;">
+    <h3>Preview Lengkap</h3>
+    <div id="previewFullContent"></div>
+    <button class="btn-secondary" onclick="closePreviewFull()">Tutup</button>
+</div>
 
 <!-- MENU AWAL -->
 <div class="box" id="homeBox">
@@ -147,6 +165,7 @@ select, input {
     </div>
 
     <div class="table" id="hasilCari"></div>
+    <button class="btn-primary" onclick="openPreviewFull()">Selengkapnya</button>
 
     <button class="btn-secondary" onclick="backToHome()">Kembali</button>
 </div>
@@ -210,6 +229,105 @@ function buangData() {
     resetForm();
     backToHome();
 }
+
+function renderPreview() {
+    const hasil = document.getElementById("hasilCari");
+    hasil.innerHTML = `<div class="preview-grid"></div>`;
+    const grid = hasil.firstChild;
+
+    Object.keys(jenisPerDaerah).forEach(daerah => {
+        const table = document.createElement("div");
+        table.className = "preview-table";
+
+        let html = `<strong>${daerah}</strong><br>`;
+        let lineCount = 0;
+
+        jenisPerDaerah[daerah].forEach(jenis => {
+            const names = cacheData
+                .filter(d => d.daerah === daerah && d.jenis === jenis)
+                .map(d => d.nama)
+                .sort();
+
+            if (names.length && lineCount < 13) {
+                html += `<b>${jenis}</b><br>`;
+                for (let n of names) {
+                    if (lineCount >= 13) break;
+                    html += `${n}<br>`;
+                    lineCount++;
+                }
+            }
+        });
+
+        table.innerHTML = html;
+        grid.appendChild(table);
+    });
+}
+
+function renderSearch(q) {
+    const hasil = document.getElementById("hasilCari");
+    hasil.innerHTML = "";
+
+    Object.keys(jenisPerDaerah).forEach(daerah => {
+        const dataDaerah = cacheData.filter(d =>
+            d.daerah === daerah && d.nama.toLowerCase().includes(q)
+        );
+
+        if (!dataDaerah.length) return;
+
+        hasil.innerHTML += `<div class="daerah">${daerah}</div>`;
+
+        jenisPerDaerah[daerah].forEach(jenis => {
+            const list = dataDaerah
+                .filter(d => d.jenis === jenis)
+                .map(d => d.nama)
+                .sort();
+
+            if (list.length) {
+                hasil.innerHTML += `<div class="jenis">${jenis}</div>`;
+                list.forEach(n => {
+                    hasil.innerHTML += `<div class="nama">- ${n}</div>`;
+                });
+            }
+        });
+    });
+}
+
+function openPreviewFull() {
+    const box = document.getElementById("previewFullBox");
+    const content = document.getElementById("previewFullContent");
+    content.innerHTML = `<div class="preview-grid"></div>`;
+    const grid = content.firstChild;
+
+    Object.keys(jenisPerDaerah).forEach(daerah => {
+        const table = document.createElement("div");
+        table.className = "preview-table";
+        let html = `<strong>${daerah}</strong><br>`;
+
+        jenisPerDaerah[daerah].forEach(jenis => {
+            const names = cacheData
+                .filter(d => d.daerah === daerah && d.jenis === jenis)
+                .map(d => d.nama)
+                .sort();
+
+            if (names.length) {
+                html += `<b>${jenis}</b><br>`;
+                names.forEach(n => html += `${n}<br>`);
+            }
+        });
+
+        table.innerHTML = html;
+        grid.appendChild(table);
+    });
+
+    hideAll();
+    box.classList.remove("hidden");
+}
+
+function closePreviewFull() {
+    document.getElementById("previewFullBox").classList.add("hidden");
+    showCari();
+}
+
 
 /* FORM */
 function enableJenis() { jenisEl.disabled = false; }
@@ -286,52 +404,24 @@ let cariTimeout = null;
 let cacheData = null;
 
 async function renderCari() {
-    const q = document.getElementById("searchInput").value.toLowerCase();
-    const hasil = document.getElementById("hasilCari");
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
 
-    // debounce (hentikan render sebelumnya)
-    clearTimeout(cariTimeout);
+    if (!cacheData) {
+        const res = await fetch(API_URL);
+        cacheData = await res.json();
+    }
 
-    cariTimeout = setTimeout(async () => {
-        hasil.innerHTML = "";
-
-        // ambil data sekali saja (cache)
-        if (!cacheData) {
-            const res = await fetch(API_URL);
-            cacheData = await res.json();
-        }
-
-        Object.keys(jenisPerDaerah).forEach(daerah => {
-            const dataDaerah = cacheData.filter(d =>
-                d.daerah === daerah &&
-                d.nama.toLowerCase().includes(q)
-            );
-
-            if (dataDaerah.length === 0) return;
-
-            hasil.innerHTML += `<div class="daerah">| ${daerah} |</div>`;
-
-            jenisPerDaerah[daerah].forEach(jenis => {
-                const namaList = dataDaerah
-                    .filter(d => d.jenis === jenis)
-                    .map(d => d.nama)
-                    .sort();
-
-                if (namaList.length > 0) {
-                    hasil.innerHTML += `<div class="jenis">${jenis}</div>`;
-                    namaList.forEach(n => {
-                        hasil.innerHTML += `<div class="nama">- ${n}</div>`;
-                    });
-                }
-            });
-        });
-
-    }, 300); // render setelah user berhenti ngetik 300ms
+    if (q === "") {
+        renderPreview();
+    } else {
+        renderSearch(q);
+    }
 }
 </script>
 
 </body>
 </html>
+
 
 
 
