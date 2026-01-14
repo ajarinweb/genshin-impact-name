@@ -66,49 +66,35 @@ select, input {
     opacity: 0.7;
 }
 
-.table {
-    margin-top: 15px;
-    text-align: left;
-    font-size: 13px;
-}
-
-.daerah {
-    margin-top: 12px;
-    font-weight: bold;
-    border-bottom: 1px solid rgba(255,255,255,0.3);
-}
-
-.jenis {
-    margin-top: 6px;
-    font-weight: bold;
-}
-
-.nama {
-    margin-left: 10px;
-}
-
-.preview-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 14px;
-    align-items: start;
-}
-
 .preview-table {
+    border-collapse: collapse;
+    width: 100%;
     font-size: 12px;
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 8px;
 }
+
+.preview-table th,
+.preview-table td {
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 6px;
+    vertical-align: top;
+}
+
+.preview-daerah {
+    font-weight: bold;
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+}
+
+.preview-jenis {
+    background: rgba(255,255,255,0.12);
+    text-align: center;
+    font-weight: 600;
+}
+
 
 #cariBox {
     width: 90%;
     max-width: 1100px;
-}
-
-.preview-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 #previewFullContent .preview-grid {
@@ -253,31 +239,58 @@ function renderPreview() {
     const grid = hasil.firstChild;
 
     Object.keys(jenisPerDaerah).forEach(daerah => {
-        const table = document.createElement("div");
-        table.className = "preview-table";
+        const jenisList = jenisPerDaerah[daerah];
 
-        let html = `<strong>${daerah}</strong><br>`;
-        let lineCount = 0;
+        // kumpulkan data per kolom
+        const kolom = {};
+        let maxRow = 0;
 
-        jenisPerDaerah[daerah].forEach(jenis => {
-            const names = cacheData
+        jenisList.forEach(jenis => {
+            const list = cacheData
                 .filter(d => d.daerah === daerah && d.jenis === jenis)
                 .map(d => d.nama)
                 .sort();
 
-            if (names.length && lineCount < 13) {
-                html += `<b>${jenis}</b><br>`;
-                for (let n of names) {
-                    if (lineCount >= 13) break;
-                    html += `<div class="preview-name">${n}</div>`;
-                    lineCount++;
-                }
-
-            }
+            kolom[jenis] = list;
+            maxRow = Math.max(maxRow, list.length);
         });
 
-        table.innerHTML = html;
-        grid.appendChild(table);
+        maxRow = Math.min(13, maxRow);
+
+        // buat tabel
+        const table = document.createElement("table");
+        table.className = "preview-table";
+
+        // ROW 1: DAERAH
+        table.innerHTML += `
+            <tr>
+                <th class="preview-daerah" colspan="${jenisList.length}">
+                    ${daerah}
+                </th>
+            </tr>
+        `;
+
+        // ROW 2: JENIS
+        table.innerHTML += `
+            <tr>
+                ${jenisList.map(j => `<th class="preview-jenis">${j}</th>`).join("")}
+            </tr>
+        `;
+
+        // ROW NAMA (maks 13)
+        for (let i = 0; i < maxRow; i++) {
+            table.innerHTML += `
+                <tr>
+                    ${jenisList.map(j =>
+                        `<td>${kolom[j][i] || ""}</td>`
+                    ).join("")}
+                </tr>
+            `;
+        }
+
+        const wrapper = document.createElement("div");
+        wrapper.appendChild(table);
+        grid.appendChild(wrapper);
     });
 }
 
@@ -442,6 +455,7 @@ async function renderCari() {
 
 </body>
 </html>
+
 
 
 
