@@ -2,464 +2,1160 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Nama Genshin Impact</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teyvat Name Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+:root {
+  --gold:      #c8a84b;
+  --gold-lt:   #e8d080;
+  --gold-dk:   #7a6320;
+  --navy:      #0d1626;
+  --navy-mid:  #131f35;
+  --navy-lt:   #1c2e50;
+  --blue:      #2a5298;
+  --blue-lt:   #4a82d4;
+  --glass:     rgba(255,255,255,0.06);
+  --glass-bd:  rgba(200,168,75,0.25);
+  --text:      #e8e0d0;
+  --text-dim:  #8a8070;
+  --danger:    #e05555;
+  --success:   #55c09a;
+  --radius:    16px;
+  --radius-sm: 10px;
+  --shadow:    0 8px 32px rgba(0,0,0,0.45);
+  --trans:     0.3s cubic-bezier(.4,0,.2,1);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
-    background: linear-gradient(135deg, #1e2a4a, #3a4f7a);
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+  font-family: 'Nunito', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
-.box {
-    background: rgba(0,0,0,0.55);
-    padding: 25px;
-    border-radius: 15px;
-    width: 380px;
-    text-align: center;
-    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+/* ── BACKGROUND ── */
+.bg-layer {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(42,82,152,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(200,168,75,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #0d1626 0%, #060e1a 100%);
+  pointer-events: none;
 }
 
-button {
-    margin: 8px;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
+.bg-stars {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(232,208,128,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,  rgba(232,208,128,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 15%, rgba(232,208,128,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 5%,  rgba(200,168,75,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 45%, rgba(232,208,128,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 35%, rgba(232,208,128,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 40%, rgba(232,208,128,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  70%, rgba(232,208,128,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 60%, rgba(200,168,75,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 65%, rgba(232,208,128,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 33% 80%, rgba(232,208,128,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 85%, rgba(232,208,128,0.3) 0%, transparent 100%);
+  pointer-events: none;
 }
 
-.btn-primary {
-    background: #4da3ff;
-    color: white;
+/* Decorative archon symbol */
+.bg-archon {
+  position: fixed;
+  bottom: -10vh; left: 50%;
+  transform: translateX(-50%);
+  width: min(70vw, 600px);
+  height: min(70vw, 600px);
+  z-index: 0;
+  opacity: 0.03;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' stroke='%23c8a84b' stroke-width='1' fill='none'/%3E%3Cpath d='M50 5 L95 50 L50 95 L5 50 Z' stroke='%23c8a84b' stroke-width='0.7' fill='none'/%3E%3Ccircle cx='50' cy='50' r='30' stroke='%23c8a84b' stroke-width='0.5' fill='none'/%3E%3Cpath d='M50 20 L80 50 L50 80 L20 50 Z' stroke='%23c8a84b' stroke-width='0.5' fill='none'/%3E%3C/svg%3E") center/contain no-repeat;
+  pointer-events: none;
 }
 
-.btn-secondary {
-    background: #ffd166;
-    color: black;
+/* ── APP CONTAINER ── */
+#app {
+  position: relative; z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-select, input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: none;
+/* ── CARD / PANEL ── */
+.panel {
+  width: 100%;
+  background: rgba(13,22,38,0.82);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid var(--glass-bd);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(200,168,75,0.12);
+  padding: 28px 24px 24px;
+  animation: panelIn var(--trans) both;
 }
 
-.hidden { display: none; }
+.panel.hidden { display: none !important; }
 
-.search-box {
-    position: relative;
+@keyframes panelIn {
+  from { opacity:0; transform: translateY(18px) scale(.97); }
+  to   { opacity:1; transform: none; }
 }
 
-.search-box span {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.7;
+/* ── HEADER ── */
+.panel-header {
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-.preview-table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 12px;
+.panel-header .eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 6px;
 }
 
-.preview-table th,
-.preview-table td {
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 4px 6px;
-    vertical-align: top;
+.panel-header h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 5vw, 26px);
+  font-weight: 700;
+  color: var(--gold-lt);
+  text-shadow: 0 0 30px rgba(200,168,75,0.4);
+  line-height: 1.2;
 }
 
-.preview-daerah {
-    font-weight: bold;
-    text-align: center;
-    background: rgba(255,255,255,0.08);
+.panel-header h2 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: 600;
+  color: var(--gold-lt);
 }
 
-.preview-jenis {
-    background: rgba(255,255,255,0.12);
-    text-align: center;
-    font-weight: 600;
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dk), transparent);
+  margin: 14px 0 20px;
 }
 
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 11px 22px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans);
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
 
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background var(--trans);
+}
+.btn:hover::after { background: rgba(255,255,255,0.07); }
+.btn:active { transform: scale(.97); }
+
+.btn-gold {
+  background: linear-gradient(135deg, #c8a84b, #a07c28);
+  color: #0d1626;
+  box-shadow: 0 4px 16px rgba(200,168,75,0.3);
+}
+.btn-gold:hover { box-shadow: 0 6px 24px rgba(200,168,75,0.5); transform: translateY(-1px); }
+
+.btn-glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-bd);
+  color: var(--gold-lt);
+}
+.btn-glass:hover { background: rgba(200,168,75,0.1); border-color: var(--gold); }
+
+.btn-danger {
+  background: rgba(224,85,85,0.15);
+  border: 1px solid rgba(224,85,85,0.4);
+  color: #ff8080;
+}
+.btn-danger:hover { background: rgba(224,85,85,0.25); }
+
+.btn-full { width: 100%; }
+.btn-sm { padding: 8px 14px; font-size: 12px; }
+
+.btn-row {
+  display: flex; gap: 10px; margin-top: 18px;
+  flex-wrap: wrap;
+}
+.btn-row .btn { flex: 1; min-width: 0; }
+
+/* ── FORM ELEMENTS ── */
+.field { margin-bottom: 14px; }
+
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+
+.field select,
+.field input[type="text"] {
+  width: 100%;
+  padding: 11px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(200,168,75,0.2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  transition: border-color var(--trans), box-shadow var(--trans);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.field select:focus,
+.field input[type="text"]:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(200,168,75,0.12);
+}
+
+.field select:disabled,
+.field input[type="text"]:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.field .select-wrap {
+  position: relative;
+}
+.field .select-wrap::after {
+  content: '▾';
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  pointer-events: none;
+  font-size: 12px;
+}
+.field select option { background: #1c2e50; color: var(--text); }
+
+/* Search input */
+.search-wrap {
+  position: relative;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 11px 40px 11px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(200,168,75,0.2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  transition: border-color var(--trans), box-shadow var(--trans);
+  outline: none;
+}
+.search-wrap input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(200,168,75,0.12);
+}
+.search-wrap .ico {
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold); opacity: 0.6;
+  font-size: 16px; pointer-events: none;
+}
+
+/* ── HOME MENU ── */
+#homeBox .menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.menu-card {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 22px 14px;
+  background: var(--glass);
+  border: 1px solid var(--glass-bd);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--trans);
+  text-align: center;
+}
+.menu-card:hover {
+  background: rgba(200,168,75,0.1);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(200,168,75,0.2);
+}
+.menu-card .icon {
+  font-size: 32px;
+  filter: drop-shadow(0 0 8px rgba(200,168,75,0.5));
+}
+.menu-card .label {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-lt);
+}
+.menu-card .sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* ── CONFIRM BOX ── */
+.confirm-icon {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+.confirm-msg {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.confirm-msg strong { color: var(--gold-lt); }
+
+/* ── SEARCH RESULTS ── */
 #cariBox {
-    width: 90%;
-    max-width: 1100px;
+  max-width: 900px;
 }
 
-#previewFullContent .preview-grid {
-    grid-template-columns: repeat(3, 1fr);
+.results-wrap {
+  margin-top: 16px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
+/* Scrollbar */
+.results-wrap::-webkit-scrollbar { width: 5px; }
+.results-wrap::-webkit-scrollbar-track { background: transparent; }
+.results-wrap::-webkit-scrollbar-thumb { background: rgba(200,168,75,0.3); border-radius: 4px; }
+
+/* Preview grid */
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.region-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,168,75,0.15);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.region-card .region-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 8px 12px 6px;
+  background: rgba(200,168,75,0.08);
+  border-bottom: 1px solid rgba(200,168,75,0.15);
+}
+
+.region-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.region-table th {
+  padding: 5px 8px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(200,168,75,0.1);
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+.region-table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text);
+  vertical-align: top;
+}
+.region-table tr:last-child td { border-bottom: none; }
+
+/* Search results list */
+.search-region { margin-bottom: 14px; }
+.search-region-title {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(200,168,75,0.2);
+}
+.search-jenis {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin: 6px 0 3px;
+  letter-spacing: 0.5px;
+}
+.search-name {
+  font-size: 13px;
+  color: var(--text);
+  padding: 2px 0 2px 10px;
+  border-left: 2px solid rgba(200,168,75,0.25);
+  margin-left: 2px;
+}
+.search-name em { color: var(--gold-lt); font-style: normal; font-weight: 600; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--text-dim);
+}
+.empty-state .ico { font-size: 32px; margin-bottom: 8px; opacity: 0.5; }
+
+/* ── FULL PREVIEW MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(6,14,26,0.85);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s both;
+}
+.modal-overlay.hidden { display: none !important; }
+
+@keyframes fadeIn { from {opacity:0} to {opacity:1} }
+
+.modal-box {
+  background: rgba(13,22,38,0.95);
+  border: 1px solid var(--glass-bd);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  animation: panelIn var(--trans) both;
+}
+.modal-head {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(200,168,75,0.15);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.modal-head h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: var(--gold-lt);
+}
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+.modal-body::-webkit-scrollbar { width: 5px; }
+.modal-body::-webkit-scrollbar-thumb { background: rgba(200,168,75,0.3); border-radius: 4px; }
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.btn-close {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 16px;
+  transition: all var(--trans);
+}
+.btn-close:hover { background: rgba(224,85,85,0.15); border-color: rgba(224,85,85,0.4); color: #ff8080; }
+
+/* ── TOAST ── */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 320px;
+}
+
+.toast {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 13px 16px;
+  background: rgba(13,22,38,0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(200,168,75,0.25);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  pointer-events: auto;
+  animation: toastIn 0.35s cubic-bezier(.22,1,.36,1) both;
+  overflow: hidden;
+  position: relative;
+}
+
+.toast::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+.toast.success { border-color: rgba(85,192,154,0.35); }
+.toast.success::before { background: #55c09a; }
+.toast.error   { border-color: rgba(224,85,85,0.35); }
+.toast.error::before   { background: var(--danger); }
+.toast.info    { border-color: rgba(74,130,212,0.35); }
+.toast.info::before    { background: var(--blue-lt); }
+.toast.warning { border-color: rgba(200,168,75,0.4); }
+.toast.warning::before { background: var(--gold); }
+
+.toast-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.toast-content { flex: 1; min-width: 0; }
+.toast-title {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.toast-msg { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
+
+.toast-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: rgba(200,168,75,0.5);
+  animation: progress 3s linear both;
+}
+
+@keyframes toastIn {
+  from { opacity:0; transform: translateX(100%) scale(.9); }
+  to   { opacity:1; transform: none; }
+}
+@keyframes toastOut {
+  from { opacity:1; transform: none; max-height: 120px; margin-bottom: 0; }
+  to   { opacity:0; transform: translateX(120%); max-height: 0; }
+}
+@keyframes progress {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
+/* ── LOADING SPINNER ── */
+.spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(200,168,75,0.3);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── BACK BUTTON ── */
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: none;
+  color: var(--text-dim);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 16px;
+  transition: color var(--trans);
+}
+.back-btn:hover { color: var(--gold); }
+.back-btn svg { width: 14px; height: 14px; }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: rgba(200,168,75,0.15);
+  border: 1px solid rgba(200,168,75,0.3);
+  color: var(--gold);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ── RESPONSIVE ── */
+@media (min-width: 640px) {
+  #app { max-width: 520px; }
+  #cariBox { max-width: 760px; }
+  .preview-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+}
+
+@media (min-width: 900px) {
+  #cariBox {
+    max-width: min(95vw, 1100px);
+  }
+  .preview-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .modal-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+}
+
+@media (min-width: 1400px) {
+  #cariBox { max-width: min(90vw, 1400px); }
+  .preview-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .modal-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .panel { padding: 22px 16px 20px; }
+  #toast-container { right: 12px; top: 12px; max-width: calc(100vw - 24px); }
+  .menu-card { padding: 18px 10px; }
+  .menu-card .icon { font-size: 26px; }
+}
 </style>
 </head>
-
 <body>
 
-<div class="box hidden" id="previewFullBox" style="width:90%; max-height:90vh; overflow:auto;">
-    <h3>Preview Lengkap</h3>
-    <div id="previewFullContent"></div>
-    <button class="btn-secondary" onclick="closePreviewFull()">Tutup</button>
+<div class="bg-layer"></div>
+<div class="bg-stars"></div>
+<div class="bg-archon"></div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- FULL PREVIEW MODAL -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>✦ Teyvat Name Archive — Full Preview</h2>
+      <button class="btn-close" onclick="closeModal()" title="Tutup">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-grid" id="modalGrid"></div>
+    </div>
+  </div>
 </div>
 
-<!-- MENU AWAL -->
-<div class="box" id="homeBox">
-    <h2>Nama-nama di Genshin Impact</h2>
-    <button class="btn-primary" onclick="showInput()">Masukan</button>
-    <button class="btn-secondary" onclick="showCari()">Cari</button>
-</div>
+<!-- APP -->
+<div id="app">
 
-<!-- INPUT -->
-<div class="box hidden" id="inputBox">
-    <h2>Masukan Nama</h2>
+  <!-- HOME -->
+  <div class="panel" id="homeBox">
+    <div class="panel-header">
+      <div class="eyebrow">✦ Teyvat Archive ✦</div>
+      <h1>Nama-nama Teyvat</h1>
+      <div class="divider"></div>
+      <p style="font-size:12px;color:var(--text-dim);line-height:1.6;">Database nama karakter & wilayah Genshin Impact</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card" onclick="showInput()">
+        <div class="icon">✍️</div>
+        <div class="label">Masukan</div>
+        <div class="sub">Tambah atau edit nama baru ke database</div>
+      </div>
+      <div class="menu-card" onclick="showCari()">
+        <div class="icon">🔍</div>
+        <div class="label">Cari</div>
+        <div class="sub">Telusuri semua nama di Teyvat</div>
+      </div>
+    </div>
+  </div>
 
-    <select id="daerah" onchange="enableJenis()">
-        <option value="">-- Pilih Daerah --</option>
-        <option>Mondstad</option>
-        <option>Liyue</option>
-        <option>Inazuma</option>
-        <option>Sumeru</option>
-        <option>Fontain</option>
-        <option>Natlan</option>
-        <option>Nord-Krai</option>
-        <option>Sneznaya</option>
-    </select>
-
-    <select id="jenis" disabled onchange="enableInput()">
-        <option value="">-- Pilih Jenis --</option>
-        <option>Laki-laki</option>
-        <option>Perempuan</option>
-        <option>Vanarana</option>
-        <option>Oceanid</option>
-        <option>Segwine</option>
-        <option>Saurian</option>
-        <option>Organisasi</option>
-    </select>
-
-    <input type="text" id="nama" placeholder="Masukan nama..." disabled>
-    <button class="btn-primary" onclick="simpanData()">Simpan</button>
-</div>
-
-<!-- KONFIRMASI DUPLIKAT -->
-<div class="box hidden" id="confirmBox">
-    <h3>Nama sudah ada!</h3>
-    <p>Perlu edit?</p>
-    <button class="btn-primary" onclick="editData()">Edit</button>
-    <button class="btn-secondary" onclick="buangData()">Buang</button>
-</div>
-
-<!-- CARI -->
-<div class="box hidden" id="cariBox">
-    <h3>Cari Nama</h3>
-
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Cari nama..." oninput="renderCari()">
-        <span>🔍</span>
+  <!-- INPUT -->
+  <div class="panel hidden" id="inputBox">
+    <button class="back-btn" onclick="backToHome()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Kembali
+    </button>
+    <div class="panel-header">
+      <h2 id="inputTitle">✦ Tambah Nama</h2>
+      <div class="divider"></div>
     </div>
 
-    <div class="table" id="hasilCari"></div>
-    <button class="btn-primary" onclick="openPreviewFull()">Selengkapnya</button>
+    <div class="field">
+      <label>Wilayah</label>
+      <div class="select-wrap">
+        <select id="daerah" onchange="onDaerahChange()">
+          <option value="">— Pilih Wilayah —</option>
+          <option>Mondstad</option>
+          <option>Liyue</option>
+          <option>Inazuma</option>
+          <option>Sumeru</option>
+          <option>Fontain</option>
+          <option>Natlan</option>
+          <option>Nord-Krai</option>
+          <option>Sneznaya</option>
+        </select>
+      </div>
+    </div>
 
-    <button class="btn-secondary" onclick="backToHome()">Kembali</button>
+    <div class="field">
+      <label>Jenis</label>
+      <div class="select-wrap">
+        <select id="jenis" disabled onchange="onJenisChange()">
+          <option value="">— Pilih Jenis —</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Nama</label>
+      <input type="text" id="nama" placeholder="Masukkan nama…" disabled
+             onkeydown="if(event.key==='Enter') simpanData()">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" id="btnSimpan" onclick="simpanData()">
+        <span id="btnSimpanLabel">✦ Simpan</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- CONFIRM DUPLICATE -->
+  <div class="panel hidden" id="confirmBox">
+    <div class="confirm-icon">⚠️</div>
+    <div class="panel-header">
+      <h2>Nama Sudah Ada</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="confirm-msg">
+      <strong id="confirmNama"></strong> sudah tersimpan di database.<br>
+      Apakah ingin mengedit nama ini?
+    </p>
+    <div class="btn-row" style="margin-top:20px;">
+      <button class="btn btn-gold" onclick="doEdit()">✏️ Edit</button>
+      <button class="btn btn-danger" onclick="doBuang()">✕ Batalkan</button>
+    </div>
+  </div>
+
+  <!-- CARI -->
+  <div class="panel hidden" id="cariBox">
+    <button class="back-btn" onclick="backToHome()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Kembali
+    </button>
+    <div class="panel-header">
+      <h2>✦ Cari Nama</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Cari nama karakter…" oninput="onSearch()">
+      <span class="ico">⌕</span>
+    </div>
+
+    <div class="results-wrap" id="hasilCari"></div>
+
+    <div class="btn-row" id="btnMoreRow">
+      <button class="btn btn-glass btn-full" onclick="openModal()">
+        📋 Lihat Semua
+      </button>
+    </div>
+  </div>
+
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbyGGtXbeWGFdLtHvZr__miux9fFBtGFznML11w7xS-D0H9Rh-nGuzlvwrLdg9iYkN3sEw/exec";
-const daerahEl = document.getElementById("daerah");
-const jenisEl = document.getElementById("jenis");
-const namaEl = document.getElementById("nama");
-let indexEdit = null;
-let editMode = false;
-let oldNama = "";
 
 const jenisPerDaerah = {
-    "Mondstad": ["Laki-laki","Perempuan","Organisasi"],
-    "Liyue": ["Laki-laki","Perempuan","Organisasi"],
-    "Inazuma": ["Laki-laki","Perempuan","Organisasi"],
-    "Sumeru": ["Laki-laki","Perempuan","Vanarana","Organisasi"],
-    "Fontain": ["Laki-laki","Perempuan","Oceanid","Segwine","Organisasi"],
-    "Natlan": ["Laki-laki","Perempuan","Saurian","Organisasi"],
-    "Nord-Krai": ["Laki-laki","Perempuan","Organisasi"],
-    "Sneznaya": ["Laki-laki","Perempuan","Organisasi"]
+  "Mondstad":  ["Laki-laki","Perempuan","Organisasi"],
+  "Liyue":     ["Laki-laki","Perempuan","Organisasi"],
+  "Inazuma":   ["Laki-laki","Perempuan","Organisasi"],
+  "Sumeru":    ["Laki-laki","Perempuan","Vanarana","Organisasi"],
+  "Fontain":   ["Laki-laki","Perempuan","Oceanid","Segwine","Organisasi"],
+  "Natlan":    ["Laki-laki","Perempuan","Saurian","Organisasi"],
+  "Nord-Krai": ["Laki-laki","Perempuan","Organisasi"],
+  "Sneznaya":  ["Laki-laki","Perempuan","Organisasi"]
 };
 
-/* NAV */
-function showInput() {
-    hideAll();
-    document.getElementById("inputBox").classList.remove("hidden");
+const jenisIcon = {
+  "Laki-laki": "♂", "Perempuan": "♀", "Organisasi": "⚑",
+  "Vanarana": "🌿", "Oceanid": "💧", "Segwine": "🦋",
+  "Saurian": "🦎"
+};
+
+let cacheData  = null;
+let editMode   = false;
+let oldNama    = "";
+
+// ── TOAST ──────────────────────────────────────────────
+function toast(type, title, msg, dur = 3000) {
+  const icons = { success:"✓", error:"✕", info:"ℹ", warning:"⚠" };
+  const c = document.createElement("div");
+  c.className = `toast ${type}`;
+  c.innerHTML = `
+    <div class="toast-icon">${icons[type]||"✦"}</div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      ${msg ? `<div class="toast-msg">${msg}</div>` : ""}
+    </div>
+    <div class="toast-progress"></div>
+  `;
+  document.getElementById("toast-container").appendChild(c);
+  c.querySelector(".toast-progress").style.animationDuration = dur + "ms";
+  setTimeout(() => {
+    c.style.animation = "toastOut 0.35s cubic-bezier(.4,0,1,1) both";
+    setTimeout(() => c.remove(), 340);
+  }, dur);
 }
 
-function showCari() {
-    hideAll();
-    cacheData = null; // reset cache
-    document.getElementById("cariBox").classList.remove("hidden");
-    renderCari();
+// ── NAV ────────────────────────────────────────────────
+function hideAll() {
+  ["homeBox","inputBox","confirmBox","cariBox"].forEach(id =>
+    document.getElementById(id).classList.add("hidden")
+  );
 }
 
 function backToHome() {
-    hideAll();
-    document.getElementById("homeBox").classList.remove("hidden");
+  hideAll();
+  document.getElementById("homeBox").classList.remove("hidden");
 }
 
-function hideAll() {
-    ["homeBox","inputBox","confirmBox","cariBox"].forEach(id=>{
-        document.getElementById(id).classList.add("hidden");
+function showInput() {
+  editMode = false; oldNama = "";
+  document.getElementById("inputTitle").textContent = "✦ Tambah Nama";
+  resetForm();
+  hideAll();
+  document.getElementById("inputBox").classList.remove("hidden");
+}
+
+function showCari() {
+  cacheData = null;
+  hideAll();
+  document.getElementById("cariBox").classList.remove("hidden");
+  document.getElementById("searchInput").value = "";
+  renderCari();
+}
+
+// ── FORM ───────────────────────────────────────────────
+function onDaerahChange() {
+  const d = document.getElementById("daerah").value;
+  const jenisEl = document.getElementById("jenis");
+  jenisEl.innerHTML = '<option value="">— Pilih Jenis —</option>';
+  if (d && jenisPerDaerah[d]) {
+    jenisPerDaerah[d].forEach(j => {
+      jenisEl.innerHTML += `<option>${j}</option>`;
     });
+    jenisEl.disabled = false;
+  } else {
+    jenisEl.disabled = true;
+  }
+  document.getElementById("nama").disabled = true;
+  document.getElementById("nama").value = "";
 }
 
-function editData() {
-    editMode = true; // ⬅️ SET MODE DULU
-    hideAll();
-    document.getElementById("inputBox").classList.remove("hidden");
+function onJenisChange() {
+  const v = document.getElementById("jenis").value;
+  document.getElementById("nama").disabled = !v;
+  if (v) document.getElementById("nama").focus();
 }
-
-function buangData() {
-    // ⛔ STOP EDIT MODE TOTAL
-    editMode = false;
-    oldNama = "";
-    cacheData = null;
-
-    resetForm();
-    backToHome();
-}
-
-function renderPreview() {
-    const hasil = document.getElementById("hasilCari");
-    hasil.innerHTML = `<div class="preview-grid"></div>`;
-    const grid = hasil.firstChild;
-
-    Object.keys(jenisPerDaerah).forEach(daerah => {
-        const jenisList = jenisPerDaerah[daerah];
-
-        // kumpulkan data per kolom
-        const kolom = {};
-        let maxRow = 0;
-
-        jenisList.forEach(jenis => {
-            const list = cacheData
-                .filter(d => d.daerah === daerah && d.jenis === jenis)
-                .map(d => d.nama)
-                .sort();
-
-            kolom[jenis] = list;
-            maxRow = Math.max(maxRow, list.length);
-        });
-
-        maxRow = Math.min(13, maxRow);
-
-        // buat tabel
-        const table = document.createElement("table");
-        table.className = "preview-table";
-
-        // ROW 1: DAERAH
-        table.innerHTML += `
-            <tr>
-                <th class="preview-daerah" colspan="${jenisList.length}">
-                    ${daerah}
-                </th>
-            </tr>
-        `;
-
-        // ROW 2: JENIS
-        table.innerHTML += `
-            <tr>
-                ${jenisList.map(j => `<th class="preview-jenis">${j}</th>`).join("")}
-            </tr>
-        `;
-
-        // ROW NAMA (maks 13)
-        for (let i = 0; i < maxRow; i++) {
-            table.innerHTML += `
-                <tr>
-                    ${jenisList.map(j =>
-                        `<td>${kolom[j][i] || ""}</td>`
-                    ).join("")}
-                </tr>
-            `;
-        }
-
-        const wrapper = document.createElement("div");
-        wrapper.appendChild(table);
-        grid.appendChild(wrapper);
-    });
-}
-
-function renderSearch(q) {
-    const hasil = document.getElementById("hasilCari");
-    hasil.innerHTML = "";
-
-    Object.keys(jenisPerDaerah).forEach(daerah => {
-        const dataDaerah = cacheData.filter(d =>
-            d.daerah === daerah && d.nama.toLowerCase().includes(q)
-        );
-
-        if (!dataDaerah.length) return;
-
-        hasil.innerHTML += `<div class="daerah">${daerah}</div>`;
-
-        jenisPerDaerah[daerah].forEach(jenis => {
-            const list = dataDaerah
-                .filter(d => d.jenis === jenis)
-                .map(d => d.nama)
-                .sort();
-
-            if (list.length) {
-                hasil.innerHTML += `<div class="jenis">${jenis}</div>`;
-                list.forEach(n => {
-                    hasil.innerHTML += `<div class="nama">- ${n}</div>`;
-                });
-            }
-        });
-    });
-}
-
-function openPreviewFull() {
-    const box = document.getElementById("previewFullBox");
-    const content = document.getElementById("previewFullContent");
-    content.innerHTML = `<div class="preview-grid"></div>`;
-    const grid = content.firstChild;
-
-    Object.keys(jenisPerDaerah).forEach(daerah => {
-        const table = document.createElement("div");
-        table.className = "preview-table";
-        let html = `<strong>${daerah}</strong><br>`;
-
-        jenisPerDaerah[daerah].forEach(jenis => {
-            const names = cacheData
-                .filter(d => d.daerah === daerah && d.jenis === jenis)
-                .map(d => d.nama)
-                .sort();
-
-            if (names.length) {
-                html += `<b>${jenis}</b><br>`;
-                names.forEach(n => html += `${n}<br>`);
-            }
-        });
-
-        table.innerHTML = html;
-        grid.appendChild(table);
-    });
-
-    hideAll();
-    box.classList.remove("hidden");
-}
-
-function closePreviewFull() {
-    document.getElementById("previewFullBox").classList.add("hidden");
-    showCari();
-}
-
-
-/* FORM */
-function enableJenis() { jenisEl.disabled = false; }
-function enableInput() { namaEl.disabled = false; }
 
 function resetForm() {
-    daerahEl.value="";
-    jenisEl.value="";
-    namaEl.value="";
-    jenisEl.disabled=true;
-    namaEl.disabled=true;
+  document.getElementById("daerah").value = "";
+  document.getElementById("jenis").innerHTML = '<option value="">— Pilih Jenis —</option>';
+  document.getElementById("jenis").disabled = true;
+  document.getElementById("nama").value = "";
+  document.getElementById("nama").disabled = true;
+  setBtnLoading(false);
 }
 
-/* SIMPAN */
+function setBtnLoading(loading) {
+  const btn  = document.getElementById("btnSimpan");
+  const lbl  = document.getElementById("btnSimpanLabel");
+  btn.disabled = loading;
+  lbl.innerHTML = loading
+    ? `<span class="spinner"></span> Menyimpan…`
+    : "✦ Simpan";
+}
+
+// ── SIMPAN (OPTIMISTIC) ────────────────────────────────
 async function simpanData() {
-    const daerah = daerahEl.value;
-    const jenis = jenisEl.value;
-    const nama = namaEl.value.trim();
+  const daerah = document.getElementById("daerah").value;
+  const jenis  = document.getElementById("jenis").value;
+  const nama   = document.getElementById("nama").value.trim();
 
-    if (!daerah || !jenis || !nama) {
-        alert("Semua data harus diisi!");
-        return;
+  if (!daerah || !jenis || !nama) {
+    toast("warning","Lengkapi Data","Wilayah, jenis, dan nama harus diisi.");
+    return;
+  }
+
+  // Pastikan cache ada untuk cek duplikat
+  if (!cacheData) {
+    setBtnLoading(true);
+    try {
+      const r = await fetch(API_URL);
+      cacheData = await r.json();
+    } catch(e) {
+      toast("error","Koneksi Gagal","Tidak dapat terhubung ke database.");
+      setBtnLoading(false);
+      return;
     }
+    setBtnLoading(false);
+  }
 
-    // ambil data (untuk cek duplikat)
-    if (!cacheData) {
-        const res = await fetch(API_URL);
-        cacheData = await res.json();
+  const found = cacheData.find(d => d.nama.toLowerCase() === nama.toLowerCase());
+
+  // Duplikat, bukan mode edit
+  if (found && !editMode) {
+    oldNama = found.nama;
+    document.getElementById("confirmNama").textContent = found.nama;
+    // isi kembali form dengan data yang ditemukan
+    document.getElementById("daerah").value = found.daerah;
+    onDaerahChange();
+    document.getElementById("jenis").value = found.jenis;
+    document.getElementById("nama").disabled = false;
+    document.getElementById("nama").value = found.nama;
+    hideAll();
+    document.getElementById("confirmBox").classList.remove("hidden");
+    return;
+  }
+
+  // --- OPTIMISTIC UPDATE ---
+  const isEdit = editMode;
+  if (isEdit) {
+    const idx = cacheData.findIndex(d => d.nama.toLowerCase() === oldNama.toLowerCase());
+    if (idx !== -1) cacheData[idx] = { daerah, jenis, nama };
+  } else {
+    cacheData.push({ daerah, jenis, nama });
+  }
+
+  toast("success", isEdit ? "Nama Diperbarui" : "Nama Disimpan",
+        `"${nama}" berhasil ${isEdit ? "diperbarui" : "ditambahkan"} ke database.`);
+
+  // Reset state & UI
+  editMode = false; oldNama = "";
+  resetForm();
+  backToHome();
+
+  // Kirim ke server di background
+  const payload = isEdit
+    ? { daerah, jenis, nama, mode: "edit", oldNama }
+    : { daerah, jenis, nama };
+
+  fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
+    .catch(() => toast("error","Sync Gagal","Data mungkin tidak tersimpan di server."));
+}
+
+// ── EDIT / BUANG ───────────────────────────────────────
+function doEdit() {
+  editMode = true;
+  document.getElementById("inputTitle").textContent = "✏️ Edit Nama";
+  hideAll();
+  document.getElementById("inputBox").classList.remove("hidden");
+}
+
+function doBuang() {
+  editMode = false; oldNama = "";
+  cacheData = null;
+  resetForm();
+  toast("info","Dibatalkan","Tidak ada perubahan yang disimpan.");
+  backToHome();
+}
+
+// ── CARI ───────────────────────────────────────────────
+async function renderCari() {
+  const container = document.getElementById("hasilCari");
+  container.innerHTML = `<div class="empty-state"><div class="ico"><span class="spinner"></span></div><div style="margin-top:8px;font-size:12px;">Memuat data…</div></div>`;
+
+  if (!cacheData) {
+    try {
+      const r = await fetch(API_URL);
+      cacheData = await r.json();
+    } catch(e) {
+      container.innerHTML = `<div class="empty-state"><div class="ico">⚠️</div><div>Gagal memuat data.</div></div>`;
+      toast("error","Koneksi Gagal","Tidak dapat terhubung ke database.");
+      return;
     }
+  }
 
-    const found = cacheData.find(d =>
-        d.nama.toLowerCase() === nama.toLowerCase()
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  const btnRow = document.getElementById("btnMoreRow");
+
+  if (q === "") {
+    renderPreview(container);
+    btnRow.style.display = "flex";
+  } else {
+    renderSearch(container, q);
+    btnRow.style.display = "none";
+  }
+}
+
+function onSearch() {
+  clearTimeout(window._searchT);
+  window._searchT = setTimeout(renderCari, 200);
+}
+
+function renderPreview(container) {
+  container.innerHTML = "";
+  const grid = document.createElement("div");
+  grid.className = "preview-grid";
+
+  Object.keys(jenisPerDaerah).forEach(daerah => {
+    const jenisList = jenisPerDaerah[daerah];
+    const kolom = {};
+    let maxRow = 0;
+    jenisList.forEach(j => {
+      const list = cacheData.filter(d => d.daerah===daerah && d.jenis===j).map(d=>d.nama).sort();
+      kolom[j] = list;
+      maxRow = Math.max(maxRow, list.length);
+    });
+    maxRow = Math.min(13, maxRow);
+    if (maxRow === 0) return;
+
+    const card = document.createElement("div");
+    card.className = "region-card";
+
+    const title = document.createElement("div");
+    title.className = "region-title";
+    title.textContent = daerah;
+    card.appendChild(title);
+
+    const table = document.createElement("table");
+    table.className = "region-table";
+
+    const thead = document.createElement("thead");
+    thead.innerHTML = `<tr>${jenisList.map(j=>`<th>${jenisIcon[j]||""} ${j}</th>`).join("")}</tr>`;
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    for (let i = 0; i < maxRow; i++) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = jenisList.map(j => `<td>${kolom[j][i]||""}</td>`).join("");
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    card.appendChild(table);
+    grid.appendChild(card);
+  });
+
+  container.appendChild(grid);
+}
+
+function renderSearch(container, q) {
+  container.innerHTML = "";
+  let found = false;
+
+  Object.keys(jenisPerDaerah).forEach(daerah => {
+    const dataDaerah = cacheData.filter(d =>
+      d.daerah === daerah && d.nama.toLowerCase().includes(q)
     );
+    if (!dataDaerah.length) return;
+    found = true;
 
-    // === MODE BARU (CEK DUPLIKAT) ===
-    if (found && !editMode) {
-        oldNama = found.nama;
+    const sec = document.createElement("div");
+    sec.className = "search-region";
+    sec.innerHTML = `<div class="search-region-title">${daerah}</div>`;
 
-        // isi ulang form (READ ONLY SAMPAI USER PILIH)
-        daerahEl.value = found.daerah;
-        jenisEl.disabled = false;
-        jenisEl.value = found.jenis;
-        namaEl.disabled = false;
-        namaEl.value = found.nama;
-
-        hideAll();
-        document.getElementById("confirmBox").classList.remove("hidden");
-        return; // ⛔ STOP TOTAL, TIDAK BOLEH POST
-    }
-
-    // === PAYLOAD ===
-    const payload = editMode
-        ? { daerah, jenis, nama, mode: "edit", oldNama }
-        : { daerah, jenis, nama };
-
-    // === KIRIM KE SERVER (SATU-SATUNYA TEMPAT POST) ===
-    await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify(payload)
+    jenisPerDaerah[daerah].forEach(jenis => {
+      const list = dataDaerah.filter(d=>d.jenis===jenis).map(d=>d.nama).sort();
+      if (!list.length) return;
+      sec.innerHTML += `<div class="search-jenis">${jenisIcon[jenis]||""} ${jenis}</div>`;
+      list.forEach(n => {
+        const hl = n.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<em>$1</em>');
+        sec.innerHTML += `<div class="search-name">${hl}</div>`;
+      });
     });
 
-    alert(editMode ? "Data diperbarui!" : "Data disimpan!");
+    container.appendChild(sec);
+  });
 
-    // RESET STATE
-    editMode = false;
-    oldNama = "";
-    cacheData = null; // refresh cache
-    resetForm();
-    backToHome();
+  if (!found) {
+    container.innerHTML = `<div class="empty-state"><div class="ico">🔍</div><div>Tidak ada hasil untuk "<strong>${q}</strong>"</div></div>`;
+  }
 }
 
-/* CARI */
-let cariTimeout = null;
-let cacheData = null;
+// ── MODAL ──────────────────────────────────────────────
+function openModal() {
+  if (!cacheData) return;
+  const grid = document.getElementById("modalGrid");
+  grid.innerHTML = "";
 
-async function renderCari() {
-    const q = document.getElementById("searchInput").value.trim().toLowerCase();
-    const btnMore = document.querySelector("#cariBox .btn-primary");
+  Object.keys(jenisPerDaerah).forEach(daerah => {
+    const jenisList = jenisPerDaerah[daerah];
+    const card = document.createElement("div");
+    card.className = "region-card";
 
-    if (!cacheData) {
-        const res = await fetch(API_URL);
-        cacheData = await res.json();
-    }
+    let html = `<div class="region-title">${daerah}</div>`;
+    const table = document.createElement("table");
+    table.className = "region-table";
+    const kolom = {};
+    let maxRow = 0;
+    jenisList.forEach(j => {
+      const list = cacheData.filter(d=>d.daerah===daerah && d.jenis===j).map(d=>d.nama).sort();
+      kolom[j] = list;
+      maxRow = Math.max(maxRow, list.length);
+    });
 
-    if (q === "") {
-        renderPreview();
-        btnMore.style.display = "inline-block"; // tampilkan
-    } else {
-        renderSearch(q);
-        btnMore.style.display = "none"; // sembunyikan
-    }
+    if (maxRow === 0) return;
+
+    table.innerHTML = `
+      <thead><tr>${jenisList.map(j=>`<th>${jenisIcon[j]||""} ${j}</th>`).join("")}</tr></thead>
+      <tbody>
+        ${Array.from({length:maxRow},(_,i)=>`<tr>${jenisList.map(j=>`<td>${kolom[j][i]||""}</td>`).join("")}</tr>`).join("")}
+      </tbody>
+    `;
+
+    card.innerHTML = html;
+    card.appendChild(table);
+    grid.appendChild(card);
+  });
+
+  document.getElementById("modalOverlay").classList.remove("hidden");
 }
+
+function closeModal() {
+  document.getElementById("modalOverlay").classList.add("hidden");
+}
+
+// Close modal on overlay click
+document.getElementById("modalOverlay").addEventListener("click", function(e) {
+  if (e.target === this) closeModal();
+});
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
